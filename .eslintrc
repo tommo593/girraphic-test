@@ -1,0 +1,77 @@
+{
+    "parser": "@typescript-eslint/parser",
+    "parserOptions": {
+      "ecmaVersion": 2020,
+      "ecmaFeatures": {
+        "experimentalObjectRestSpread": true,
+        "jsx": true
+      },
+      "sourceType": "module"
+    },
+    "extends": [
+      "prettier",
+      "eslint:recommended",
+      "plugin:react/recommended",
+      "plugin:import/typescript",
+      "plugin:prettier/recommended",
+      "plugin:react-hooks/recommended",
+      "plugin:tailwindcss/recommended",
+      "plugin:@typescript-eslint/recommended"
+    ],
+    "plugins": [
+      "react",
+      "import",
+      "prettier",
+      "react-hooks",
+      "react-refresh",
+      "simple-import-sort",
+      "@typescript-eslint"
+    ],
+    "rules": {
+      "array-callback-return": "error",
+      "prettier/prettier": ["error", { "endOfLine": "auto" }],
+      "react/no-typos": "error",
+      "react/no-unused-state": "error",
+      "react/no-unescaped-entities": "off",
+      "react/jsx-no-bind": [
+        "error",
+        {
+          "allowArrowFunctions": true
+        }
+      ],
+      "react-refresh/only-export-components": ["warn", { "allowConstantExport": true }],
+      "@typescript-eslint/no-var-requires": "off",
+      "@typescript-eslint/no-unused-vars": ["error", { "argsIgnorePattern": "^_" }],
+      "@typescript-eslint/no-non-null-assertion": "off",
+      "tailwindcss/no-custom-classname": "off",
+      "tailwindcss/classnames-order": "off",
+      "simple-import-sort/exports": "error",
+      "simple-import-sort/imports": [
+        "error",
+        {
+          "groups": [
+            ["^react"],
+            // Packages `react` related packages come first.
+            ["^@?\\w"],
+            // Side effect imports.
+            ["^@/(app|components|context|hooks|models|network|utils)\\/.+"],
+            // Parent imports. Put `..` last.
+            ["^\\u0000"],
+            // Other relative imports. Put same-folder imports and `.` last.
+            ["^\\.\\.(?!/?$)", "^\\.\\./?$", "^\\./(?=.*/)(?!/?$)", "^\\.(?!/?$)", "^\\./?$"],
+            // Style imports.
+            ["^.+\\.?(css)$"]
+          ]
+        }
+      ]
+    },
+    "settings": {
+      "react": {
+        "pragma": "React",
+        "version": "detect"
+      },
+      "import/resolver": {
+        "typescript": {}
+      }
+    }
+  }
