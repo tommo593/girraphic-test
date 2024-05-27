@@ -1,9 +1,8 @@
-import React from 'react'
-
 const Navbar = () => {
   return (
-    <div>
-        <img src="logo.png" alt="Girraphic Logo" />
+    <div className="pt-8 px-8 flex justify-between">
+        <img src="logo.png" alt="Girraphic Logo" height={50} width={150} />
+        <h1 className="tracking-wide">GIRRAPHIC MARATHON RESULTS</h1>
     </div>
   )
 }
