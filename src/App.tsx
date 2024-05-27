@@ -1,5 +1,9 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
+import axios from 'axios';
 import Navbar from '../src/ui/components/Navbar'
+import JSON2CSVNodeTransform from '@json2csv/node/Transform.js';
+import JSON2CSVNodeAsyncParser from '@json2csv/node/AsyncParser.js';
+import RESULTS from '../MarathonResults.json';
 
 
 interface Athlete {
@@ -19,12 +23,36 @@ function App() {
   const [athletes, setAthletes] = useState<Athlete[]>([]);
   const [sortField, setSortField] = useState<'rank' | 'bibNumber'>('rank');
   const sortedAthletes = [...athletes].sort((a, b) => a[sortField] - b[sortField]);
+
+  useEffect(() => {
+    axios.get('/api/results')
+      .then(response => setAthletes(response.data))
+      .catch(error => console.error('Error fetching data:', error));
+  }, []);
+
+  const handleExport = () => {
+    axios.get('/api/export-csv')
+      .then(response => {
+        const blob = new Blob([response.data], { type: 'text/csv' });
+        const url = URL.createObjectURL(blob);
+        const a = document.createElement('a');
+        a.href = url;
+        a.download = 'race_results.csv';
+        a.click();
+      })
+      .catch(error => console.error('Error exporting CSV:', error));
+  };
+
   return (
   <>
   <div>
     <Navbar />
 </div>
 <div>
+<button onClick={() => setSortField('rank')}>Sort by Rank</button>
+        <button onClick={() => setSortField('bibNumber')}>Sort by Bib Number</button>
+</div>
+<div className='px-12 pt-8'>
 <table>
         <thead>
           <tr>
@@ -41,18 +69,18 @@ function App() {
           </tr>
         </thead>
         <tbody>
-        {sortedAthletes.map(athlete => (
-            <tr key={athlete.bibNumber}>
-              <td>{athlete.rank}</td>
-              <td>{athlete.firstName}</td>
-              <td>{athlete.surname}</td>
-              <td>{athlete.athleteId}</td>
-              <td>{athlete.finishTime}</td>
-              <td>{athlete.raceProgress}</td>
-              <td>{athlete.teamName}</td>
-              <td>{athlete.bibNumber}</td>
-              <td>{athlete.countryName}</td>
-              <td>{athlete.country}</td>
+        {sortedAthletes.map(RESULTS => (
+            <tr key={RESULTS.bibNumber}>
+              <td>{RESULTS.rank}</td>
+              <td>{RESULTS.firstName}</td>
+              <td>{RESULTS.surname}</td>
+              <td>{RESULTS.athleteId}</td>
+              <td>{RESULTS.finishTime}</td>
+              <td>{RESULTS.raceProgress}</td>
+              <td>{RESULTS.teamName}</td>
+              <td>{RESULTS.bibNumber}</td>
+              <td>{RESULTS.countryName}</td>
+              <td>{RESULTS.country}</td>
             </tr>
         ))}
         </tbody>
