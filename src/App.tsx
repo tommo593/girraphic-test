@@ -3,7 +3,7 @@ import axios from 'axios';
 import Navbar from '../src/ui/components/Navbar'
 import JSON2CSVNodeTransform from '@json2csv/node/Transform.js';
 import JSON2CSVNodeAsyncParser from '@json2csv/node/AsyncParser.js';
-import RESULTS from '../MarathonResults.json';
+import results from '../MarathonResults.json';
 
 
 interface Athlete {
@@ -51,7 +51,7 @@ function App() {
 <div className='pt-8 px-12 flex flex-row'>
 <button onClick={() => setSortField('rank')} className='border border-white px-8 py-4 hover:bg-yellow_hover transition duration-200'>Sort by Rank</button>
         <button onClick={() => setSortField('bibNumber')} className='border border-white px-8 py-4 hover:bg-yellow_hover transition duration-200'>Sort by Bib Number</button>
-        <div className='flex flex-row justify-end'>
+        <div className='csv_button'>
         <button onClick={handleExport} className='border border-white px-8 py-4 hover:bg-yellow_hover transition duration-200'>Export to CSV</button>
         </div>
 </div>
@@ -72,18 +72,18 @@ function App() {
           </tr>
         </thead>
         <tbody>
-        {sortedAthletes.map(RESULTS => (
-            <tr key={RESULTS.bibNumber}>
-              <td>{RESULTS.rank}</td>
-              <td>{RESULTS.firstName}</td>
-              <td>{RESULTS.surname}</td>
-              <td>{RESULTS.athleteId}</td>
-              <td>{RESULTS.finishTime}</td>
-              <td>{RESULTS.raceProgress}</td>
-              <td>{RESULTS.teamName}</td>
-              <td>{RESULTS.bibNumber}</td>
-              <td>{RESULTS.countryName}</td>
-              <td>{RESULTS.country}</td>
+        {sortedAthletes.map(results => (
+            <tr key={results.bibNumber}>
+              <td>{results.rank}</td>
+              <td>{results.firstName}</td>
+              <td>{results.surname}</td>
+              <td>{results.bibNumber}</td>
+              <td>{results.athleteId}</td>
+              <td>{results.raceProgress}</td>
+              <td>{results.finishTime}</td>
+              <td>{results.teamName}</td>
+              <td>{results.countryName}</td>
+              <td>{results.country}</td>
             </tr>
         ))}
         </tbody>

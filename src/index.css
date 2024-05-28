@@ -22,8 +22,15 @@ table {
 th, td {
   border: 1px solid #ddd;
   padding: 8px;
+  height: 2rem;
+  width: 4rem;
 }
 
 th {
   background-color: #060612;
+}
+
+.csv_button {
+  flex: auto;
+  justify-content: end;
 }
