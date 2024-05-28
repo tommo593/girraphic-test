@@ -1,47 +1,59 @@
-import { useState, useEffect } from 'react';
-import axios from 'axios';
+import { useState, useCallback, useEffect } from 'react';
 import Navbar from '../src/ui/components/Navbar'
-import JSON2CSVNodeTransform from '@json2csv/node/Transform.js';
-import JSON2CSVNodeAsyncParser from '@json2csv/node/AsyncParser.js';
-import results from '../MarathonResults.json';
+import axios from 'axios';
 
 
-interface Athlete {
+type Athlete = {
   rank: number;
-  firstName: string;
+  firstname: string;
   surname: string;
-  athleteId: number;
-  finishTime: string;
-  raceProgress: string;
-  teamName: string;
-  bibNumber: number;
-  countryName: string;
-  country: string
+  athleteid: number;
+  finishtime: string;
+  raceprogress: string;
+  teamname: string;
+  bibnumber: number;
+  flag: string;
+  countryname: string;
+}
+
+type JsonResult = {
+  results: JsonData;
+}
+
+type JsonData = {
+  athletes: Athlete[];
+  gender: string;
+  lastupdated: Date;
+  raceStatus: string;
+  raceLength: number;
+  racename: string;
+  tod: Date;
 }
 
 function App() {
   const [athletes, setAthletes] = useState<Athlete[]>([]);
-  const [sortField, setSortField] = useState<'rank' | 'bibNumber'>('rank');
-  const sortedAthletes = [...athletes].sort((a, b) => a[sortField] - b[sortField]);
+  const [sortField, setSortField] = useState<'rank' | 'bibnumber'>('rank');
+
+  const getAtheletes = useCallback(async () => {
+    try {
+      const result = await axios.get<JsonResult>('../MarathonResults.json');
+      console.log(result);
+      setAthletes(result.data.results.athletes.sort((a, b) => a[sortField] - b[sortField]));
+    } catch (error: unknown) {
+      // handle api error
+      console.log(error);
+    }
+  }, [sortField]);
 
   useEffect(() => {
-    axios.get('/api/results')
-      .then(response => setAthletes(response.data))
-      .catch(error => console.error('Error fetching data:', error));
-  }, []);
+    getAtheletes();
+  }, [getAtheletes]);
 
-  const handleExport = () => {
-    axios.get('/api/export-csv')
-      .then(response => {
-        const blob = new Blob([response.data], { type: 'text/csv' });
-        const url = URL.createObjectURL(blob);
-        const a = document.createElement('a');
-        a.href = url;
-        a.download = 'race_results.csv';
-        a.click();
-      })
-      .catch(error => console.error('Error exporting CSV:', error));
-  };
+/* const sortedAthletes = useMemo(() => {
+    return [...athletes].sort((a, b) => a[sortField] - b[sortField]);
+  }, [athletes, sortField]); */
+
+
 
   return (
   <>
@@ -50,47 +62,47 @@ function App() {
 </div>
 <div className='pt-8 px-12 flex flex-row'>
 <button onClick={() => setSortField('rank')} className='border border-white px-8 py-4 hover:bg-yellow_hover transition duration-200'>Sort by Rank</button>
-        <button onClick={() => setSortField('bibNumber')} className='border border-white px-8 py-4 hover:bg-yellow_hover transition duration-200'>Sort by Bib Number</button>
+        <button onClick={() => setSortField('bibnumber')} className='border border-white px-8 py-4 hover:bg-yellow_hover transition duration-200'>Sort by Bib Number</button>
         <div className='csv_button'>
-        <button onClick={handleExport} className='border border-white px-8 py-4 hover:bg-yellow_hover transition duration-200'>Export to CSV</button>
+        <button className='border border-white px-8 py-4 hover:bg-yellow_hover transition duration-200'>Export to CSV</button>
         </div>
 </div>
 <div className='px-12 pt-8'>
 <table>
-        <thead>
-          <tr>
-            <th>Rank</th>
-            <th>First Name</th>
-            <th>Surname</th>
-            <th>Bib Number</th>
-            <th>Athlete ID</th>
-            <th>Finish Time</th>
-            <th>Race Progress</th>
-            <th>Team Name</th>
-            <th>Flag</th>
-            <th>Country</th>
-          </tr>
-        </thead>
-        <tbody>
-        {sortedAthletes.map(results => (
-            <tr key={results.bibNumber}>
-              <td>{results.rank}</td>
-              <td>{results.firstName}</td>
-              <td>{results.surname}</td>
-              <td>{results.bibNumber}</td>
-              <td>{results.athleteId}</td>
-              <td>{results.raceProgress}</td>
-              <td>{results.finishTime}</td>
-              <td>{results.teamName}</td>
-              <td>{results.countryName}</td>
-              <td>{results.country}</td>
+          <thead>
+            <tr>
+              <th>Rank</th>
+              <th>First Name</th>
+              <th>Surname</th>
+              <th>Bib Number</th>
+              <th>Athlete ID</th>
+              <th>Finish Time</th>
+              <th>Race Progress</th>
+              <th>Team Name</th>
+              <th>Flag</th>
+              <th>Country</th>
             </tr>
-        ))}
-        </tbody>
-      </table>
+          </thead>
+          <tbody>
+            {athletes.map((results) => (
+              <tr key={results.bibnumber}>
+                <td>{results.rank}</td>
+                <td>{results.firstname}</td>
+                <td>{results.surname}</td>
+                <td>{results.bibnumber}</td>
+                <td>{results.athleteid}</td>
+                <td>{results.raceprogress}</td>
+                <td>{results.finishtime}</td>
+                <td>{results.teamname}</td>
+                <td>{results.flag}</td>
+                <td>{results.countryname}</td>
+              </tr>
+            ))}
+          </tbody>
+        </table>
 </div>
   </>
   )
-}
+  }
 
 export default App;
