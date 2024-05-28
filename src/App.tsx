@@ -2,7 +2,6 @@ import { useState, useCallback, useEffect } from 'react';
 import Navbar from '../src/ui/components/Navbar'
 import axios from 'axios';
 
-
 type Athlete = {
   rank: number;
   firstname: string;
@@ -34,26 +33,33 @@ function App() {
   const [athletes, setAthletes] = useState<Athlete[]>([]);
   const [sortField, setSortField] = useState<'rank' | 'bibnumber'>('rank');
 
-  const getAtheletes = useCallback(async () => {
+  const getAthletes = useCallback(async () => {
     try {
-      const result = await axios.get<JsonResult>('../MarathonResults.json');
+      const result = await axios.get<JsonResult>('../constants/MarathonResults.json');
       console.log(result);
       setAthletes(result.data.results.athletes.sort((a, b) => a[sortField] - b[sortField]));
     } catch (error: unknown) {
-      // handle api error
       console.log(error);
     }
   }, [sortField]);
 
   useEffect(() => {
-    getAtheletes();
-  }, [getAtheletes]);
+    getAthletes();
+  }, [getAthletes]);
 
-/* const sortedAthletes = useMemo(() => {
-    return [...athletes].sort((a, b) => a[sortField] - b[sortField]);
-  }, [athletes, sortField]); */
-
-
+  const handleExport = () => {
+    axios
+      .get('/api/export-csv')
+      .then((response) => {
+        const blob = new Blob([response.data], { type: 'text/csv' });
+        const url = URL.createObjectURL(blob);
+        const a = document.createElement('a');
+        a.href = url;
+        a.download = 'race_results.csv';
+        a.click();
+      })
+      .catch((error) => console.error('Error exporting CSV:', error));
+  };
 
   return (
   <>
@@ -64,7 +70,7 @@ function App() {
 <button onClick={() => setSortField('rank')} className='border border-white px-8 py-4 hover:bg-yellow_hover transition duration-200'>Sort by Rank</button>
         <button onClick={() => setSortField('bibnumber')} className='border border-white px-8 py-4 hover:bg-yellow_hover transition duration-200'>Sort by Bib Number</button>
         <div className='csv_button'>
-        <button className='border border-white px-8 py-4 hover:bg-yellow_hover transition duration-200'>Export to CSV</button>
+        <button onClick={handleExport} className='border border-white px-8 py-4 hover:bg-yellow_hover transition duration-200'>Export to CSV</button>
         </div>
 </div>
 <div className='px-12 pt-8'>
