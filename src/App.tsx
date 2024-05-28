@@ -48,9 +48,12 @@ function App() {
   <div>
     <Navbar />
 </div>
-<div>
-<button onClick={() => setSortField('rank')}>Sort by Rank</button>
-        <button onClick={() => setSortField('bibNumber')}>Sort by Bib Number</button>
+<div className='pt-8 px-12 flex flex-row'>
+<button onClick={() => setSortField('rank')} className='border border-white px-8 py-4 hover:bg-yellow_hover transition duration-200'>Sort by Rank</button>
+        <button onClick={() => setSortField('bibNumber')} className='border border-white px-8 py-4 hover:bg-yellow_hover transition duration-200'>Sort by Bib Number</button>
+        <div className='flex flex-row justify-end'>
+        <button onClick={handleExport} className='border border-white px-8 py-4 hover:bg-yellow_hover transition duration-200'>Export to CSV</button>
+        </div>
 </div>
 <div className='px-12 pt-8'>
 <table>
@@ -59,11 +62,11 @@ function App() {
             <th>Rank</th>
             <th>First Name</th>
             <th>Surname</th>
+            <th>Bib Number</th>
             <th>Athlete ID</th>
             <th>Finish Time</th>
             <th>Race Progress</th>
             <th>Team Name</th>
-            <th>Bib Number</th>
             <th>Flag</th>
             <th>Country</th>
           </tr>

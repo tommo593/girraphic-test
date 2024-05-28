@@ -2,7 +2,7 @@ const Navbar = () => {
   return (
     <div className="pt-8 px-8 flex justify-between">
         <img src="logo.png" alt="Girraphic Logo" height={50} width={150} />
-        <h1 className="tracking-wide">GIRRAPHIC MARATHON RESULTS</h1>
+        <h1 className="tracking-wide text-3xl">GIRRAPHIC MARATHON RESULTS</h1>
     </div>
   )
 }
