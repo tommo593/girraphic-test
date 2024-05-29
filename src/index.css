@@ -27,16 +27,19 @@ th, td {
 }
 
 th {
-  background-color: #060612;
+  background-color: #ebc634;
+  color: #121212;
 }
 
+/*
 .button_swipe {
   background: linear-gradient(to right, #ebc634 50%, #121212 50%);
   background-size: 200% 100%;
   background-position: right bottom;
-  transition: all .5s ease-out;
+  transition: all .4s ease-out;
 }
 
 .button_swipe:hover {
     background-position: left bottom;
 }
+*/
