@@ -1,4 +1,4 @@
-# React + TypeScript + Vite + Tailwind - Tyoe "npm run dev" to run.
+# React + TypeScript + Vite + Tailwind - Type "npm run dev" to run.
 
 I have built a Media Information System that displays the athletes and thier results in a user interface. The aim was to make the information as legible and sleek as possible whilst mirroring the styling of Girraphic.
 
