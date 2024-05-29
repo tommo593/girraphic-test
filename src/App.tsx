@@ -6,11 +6,11 @@ interface Athlete {
   rank: number;
   firstname: string;
   surname: string;
-  athleteid: number;
+  athleteid: string;
   finishtime: string;
   raceprogress: string;
   teamname: string;
-  bibnumber: number;
+  bibnumber: string;
   flag: string;
   countryname: string;
 }
@@ -43,14 +43,20 @@ function App() {
   }, []);
 
   const sortedAthletes = useMemo(() => {
-    return [...athletes].sort((a, b) => a[sortField] - b[sortField]);
+    return [...athletes].sort((a, b) => {
+      if (sortField === 'rank') {
+        return a.rank - b.rank;
+      } else {
+        return parseInt(a.bibnumber) - parseInt(b.bibnumber);
+      }
+    });
   }, [athletes, sortField]);
 
   const handleExport = () => {
     const csvData = sortedAthletes.map((athlete) => {
       return `${athlete.rank},${athlete.firstname} ${athlete.surname},${athlete.finishtime},${athlete.countryname}`;
     });
-    const csvHeader = 'Rank,Full Name,Finish Time,Country Code';
+    const csvHeader = 'Rank, Full Name, Finish Time, Country Code';
     const csvContent = [csvHeader, ...csvData].join('\n');
 
     const blob = new Blob([csvContent], { type: 'text/csv' });
@@ -64,31 +70,31 @@ function App() {
   return (
     <>
       <Navbar />
-      <div className='pt-8 px-12 flex flex-row'>
+      <div className="flex flex-row px-12 pt-8">
         <button
           onClick={() => setSortField('rank')}
-          className='border border-light_grey text-light_grey px-12 py-4 hover:bg-yellow_hover hover:text-brilliant_white transition duration-700 mr-2'
+          className="mr-2 border border-light_grey px-12 py-4 text-light_grey transition duration-700 hover:bg-yellow_hover hover:text-brilliant_white"
         >
           Sort by Rank
         </button>
         <button
           onClick={() => setSortField('bibnumber')}
-          className='border border-light_grey text-light_grey px-8 hover:bg-yellow_hover hover:text-brilliant_white transition duration-700'
+          className="border border-light_grey px-8 text-light_grey transition duration-700 hover:bg-yellow_hover hover:text-brilliant_white"
         >
           Sort by Bib Number
         </button>
-        <div className='flex justify-end ml-auto'>
+        <div className="ml-auto flex justify-end">
           <button
             onClick={handleExport}
-            className='border border-light_grey text-light_grey px-8 py-4 transition duration-700 hover:bg-yellow_hover hover:text-brilliant_white'
+            className="border border-light_grey px-8 py-4 text-light_grey transition duration-700 hover:bg-yellow_hover hover:text-brilliant_white"
           >
             Export to CSV
           </button>
         </div>
       </div>
-      <div className='px-12 pt-8 text-center'>
-        {error && <p className='text-red-500'>{error}</p>}
-        <table className='table-auto w-full'>
+      <div className="px-12 pt-8 text-center">
+        {error && <p className="text-red-500">{error}</p>}
+        <table className="w-full table-auto">
           <thead>
             <tr>
               <th>Rank</th>
@@ -126,4 +132,3 @@ function App() {
 }
 
 export default App;
-
