@@ -1,6 +1,7 @@
 import { useState, useCallback, useEffect } from 'react';
 import Navbar from '../src/ui/components/Navbar'
 import axios from 'axios';
+import MarathonResults from '../constants/MarathonResults.json';
 
 type Athlete = {
   rank: number;
@@ -67,13 +68,13 @@ function App() {
     <Navbar />
 </div>
 <div className='pt-8 px-12 flex flex-row'>
-<button onClick={() => setSortField('rank')} className='border border-white px-8 py-4 hover:bg-yellow_hover transition duration-200'>Sort by Rank</button>
-        <button onClick={() => setSortField('bibnumber')} className='border border-white px-8 py-4 hover:bg-yellow_hover transition duration-200'>Sort by Bib Number</button>
-        <div className='csv_button'>
-        <button onClick={handleExport} className='border border-white px-8 py-4 hover:bg-yellow_hover transition duration-200'>Export to CSV</button>
+<button onClick={() => setSortField('rank')} className='border border-white px-8 py-4 hover:bg-yellow_hover transition duration-200 button_swipe'>Sort by Rank</button>
+        <button onClick={() => setSortField('bibnumber')} className='border border-white px-8 py-4 hover:bg-yellow_hover transition duration-200 button_swipe'>Sort by Bib Number</button>
+        <div className='flex justify-end ml-auto'>
+        <button onClick={handleExport} className='border border-white px-8 py-4 transition duration-200 hover:bg-yellow_hover button_swipe'>Export to CSV</button>
         </div>
 </div>
-<div className='px-12 pt-8'>
+<div className='px-12 pt-8 text-center'>
 <table>
           <thead>
             <tr>

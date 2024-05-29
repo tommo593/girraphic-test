@@ -6,7 +6,7 @@
 
 
 * {
-  background-color: #1f1f1f;
+  background-color: #121212;
   margin: 0;
   padding: 0;
   box-sizing: border-box;
@@ -20,7 +20,7 @@ table {
 }
 
 th, td {
-  border: 1px solid #ddd;
+  border-bottom: 1px solid #525151;
   padding: 8px;
   height: 2rem;
   width: 4rem;
@@ -30,7 +30,13 @@ th {
   background-color: #060612;
 }
 
-.csv_button {
-  flex: auto;
-  justify-content: end;
+.button_swipe {
+  background: linear-gradient(to right, #ebc634 50%, #121212 50%);
+  background-size: 200% 100%;
+  background-position: right bottom;
+  transition: all .5s ease-out;
+}
+
+.button_swipe:hover {
+    background-position: left bottom;
 }
