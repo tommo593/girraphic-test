@@ -16,16 +16,18 @@ interface Athlete {
   countryname: string;
 }
 
-interface JsonResult {
-  results: {
-    athletes: Athlete[];
-    gender: string;
-    lastupdated: Date;
-    raceStatus: string;
-    raceLength: number;
-    racename: string;
-    tod: Date;
-  };
+type JsonResult = {
+  results: JsonData;
+}
+
+type JsonData = {
+  athletes: Athlete[];
+  gender: string;
+  lastupdated: string;
+  raceStatus: string;
+  racelength: number;
+  racename: string;
+  tod: string;
 }
 
 function App() {
@@ -71,14 +73,14 @@ function App() {
         <Navbar />
       </div>
       <div className='pt-8 px-12 flex flex-row'>
-        <button onClick={() => setSortField('rank')} className='border border-light_grey text-light_grey px-12 py-4 hover:bg-yellow_hover hover:text-brilliant_white transition duration-400 mr-2'>
+        <button onClick={() => setSortField('rank')} className='border border-light_grey text-light_grey px-12 py-4 hover:bg-yellow_hover hover:text-brilliant_white transition duration-700 mr-2'>
           Sort by Rank
         </button>
-        <button onClick={() => setSortField('bibnumber')} className='border border-light_grey text-light_grey px-8 hover:bg-yellow_hover hover:text-brilliant_white transition duration-400'>
+        <button onClick={() => setSortField('bibnumber')} className='border border-light_grey text-light_grey px-8 hover:bg-yellow_hover hover:text-brilliant_white transition duration-700'>
           Sort by Bib Number
         </button>
         <div className='flex justify-end ml-auto'>
-          <button onClick={handleExport} className='border border-light_grey text-light_grey px-8 py-4 transition duration-400 hover:bg-yellow_hover hover:text-brilliant_white'>
+          <button onClick={handleExport} className='border border-light_grey text-light_grey px-8 py-4 transition duration-700 hover:bg-yellow_hover hover:text-brilliant_white'>
             Export to CSV
           </button>
         </div>
