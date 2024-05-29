@@ -1,6 +1,7 @@
 import { useState, useCallback, useEffect, useMemo } from 'react';
 import Navbar from '../src/ui/components/Navbar';
 import axios from 'axios';
+import MarathonResults from '../constants/MarathonResults.json'
 
 interface Athlete {
   rank: number;
@@ -73,11 +74,11 @@ function App() {
         <button onClick={() => setSortField('rank')} className='border border-light_grey text-light_grey px-12 py-4 hover:bg-yellow_hover hover:text-brilliant_white transition duration-400 mr-2'>
           Sort by Rank
         </button>
-        <button onClick={() => setSortField('bibnumber')} className='border border-light_grey text-light_grey px-8 hover:bg-yellow_hover hover:text-brilliant_white transition duration-200'>
+        <button onClick={() => setSortField('bibnumber')} className='border border-light_grey text-light_grey px-8 hover:bg-yellow_hover hover:text-brilliant_white transition duration-400'>
           Sort by Bib Number
         </button>
         <div className='flex justify-end ml-auto'>
-          <button onClick={handleExport} className='border border-light_grey text-light_grey px-8 py-4 transition duration-200 hover:bg-yellow_hover hover:text-brilliant_white'>
+          <button onClick={handleExport} className='border border-light_grey text-light_grey px-8 py-4 transition duration-400 hover:bg-yellow_hover hover:text-brilliant_white'>
             Export to CSV
           </button>
         </div>
