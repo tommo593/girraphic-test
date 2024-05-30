@@ -70,19 +70,20 @@ function App() {
   return (
     <>
       <Navbar />
-      <div className="flex flex-row px-12 pt-8">
-        <button
-          onClick={() => setSortField('rank')}
-          className="mr-2 border border-light_grey px-12 py-4 text-light_grey transition duration-700 hover:bg-yellow_hover hover:text-brilliant_white"
-        >
-          Sort by Rank
-        </button>
-        <button
-          onClick={() => setSortField('bibnumber')}
-          className="border border-light_grey px-8 text-light_grey transition duration-700 hover:bg-yellow_hover hover:text-brilliant_white"
-        >
-          Sort by Bib Number
-        </button>
+      <div className="flex flex-row justify-between px-12 pt-8">
+        <div className="dropdown flex flex-row">
+          <button className="dropbtn border border-light_grey px-16 py-4 text-center text-light_grey transition duration-700 hover:bg-yellow_hover hover:text-brilliant_white">
+            Sort by
+          </button>
+          <div className="dropdown-content transition duration-700 hover:bg-yellow_hover">
+            <a href="#" onClick={() => setSortField('rank')}>
+              Rank
+            </a>
+            <a href="#" onClick={() => setSortField('bibnumber')}>
+              Bib Number
+            </a>
+          </div>
+        </div>
         <div className="ml-auto flex justify-end">
           <button
             onClick={handleExport}
