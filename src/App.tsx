@@ -1,6 +1,7 @@
 import { useState, useEffect, useMemo } from 'react';
 import Navbar from '../src/ui/components/Navbar';
 import MarathonResults from '../constants/MarathonResults.json';
+import Footer from './ui/components/Footer';
 
 interface Athlete {
   rank: number;
@@ -128,6 +129,7 @@ function App() {
           </tbody>
         </table>
       </div>
+      <Footer />
     </>
   );
 }
